@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 1em;
+}
+
+body {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.box {
+  height: 200px;
+  width: 200px;
+  background-color: deepskyblue;
+  border: none;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

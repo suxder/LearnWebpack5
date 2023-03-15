@@ -1,0 +1,6 @@
+.vscode/*
+dist/*
+assets/*
+**/index.html
+**/index.*.html
+**/assets/*.html
