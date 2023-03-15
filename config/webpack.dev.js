@@ -18,7 +18,7 @@ module.exports = {
           {
             test: /\.css$/,
             use: [
-              'style-loader', // 提取css成单独文件
+              'style-loader', 
               'css-loader'
             ]
           },

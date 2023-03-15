@@ -6,6 +6,26 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
 
+// 获取处理样式的Loaders
+// 减少重复代码
+const getStyleLoaders = (preProcessor) => {
+  return [
+    MiniCssExtractPlugin.loader,
+    "css-loader",
+    {
+      loader: "postcss-loader",
+      options: {
+        postcssOptions: {
+          plugins: [
+            "postcss-preset-env", // 能解决大多数样式兼容性问题
+          ],
+        },
+      },
+    },
+    preProcessor,
+  ].filter(Boolean);
+};
+
 // cpu核数
 const threads = os.cpus().length
 
@@ -23,10 +43,7 @@ module.exports = {
           // 处理样式的loader,
           {
             test: /\.css$/,
-            use: [
-              MiniCssExtractPlugin.loader, // 提取css成单独文件
-              'css-loader'
-            ]
+            use: getStyleLoaders()
           },
           // 提高JS兼容性
           {
@@ -76,12 +93,18 @@ module.exports = {
         filename: "static/css/main.css"
       }
     ),
-    // css压缩
-    new CssMinimizerPlugin(),
-    new TerserPlugin({
-      parallel: threads // 开启多线程
-    })
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      // css压缩也可以写到optimization.minimizer里面，效果一样的
+      new CssMinimizerPlugin(),
+      // 当生产模式会默认开启TerserPlugin，但是我们需要进行其他配置，就要重新写了
+      new TerserPlugin({
+        parallel: threads // 开启多进程
+      })
+    ],
+  },
   mode: 'production',
   devtool: "source-map"
 }
