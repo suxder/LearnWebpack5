@@ -30,7 +30,7 @@ const getStyleLoaders = (preProcessor) => {
 const threads = os.cpus().length
 
 module.exports = {
-  entry: './src/main.js',
+  entry: './src/js/main.js',
   output: {
     filename: 'static/js/main.js',
     path: resolve(__dirname, '../dist'),

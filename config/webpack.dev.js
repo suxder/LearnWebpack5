@@ -4,7 +4,7 @@ const ESLintWebpackPlugin = require("eslint-webpack-plugin")
 
 
 module.exports = {
-  entry: './src/main.js', // 相对路径
+  entry: './src/js/main.js', // 相对路径
   output: {
     path: undefined, // 开发环境不需要输出
     filename: 'js/main.js'
