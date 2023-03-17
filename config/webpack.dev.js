@@ -29,7 +29,8 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true, // 开启babel缓存
-              cacheCompression: false // 关闭缓存文件压缩
+              cacheCompression: false, // 关闭缓存文件压缩
+              plugins: ["@babel/plugin-transform-runtime"], // 减少代码体积
             }
           },
         ]
