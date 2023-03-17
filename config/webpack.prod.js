@@ -30,9 +30,12 @@ const getStyleLoaders = (preProcessor) => {
 const threads = os.cpus().length
 
 module.exports = {
-  entry: './src/js/main.js',
+  entry: './src/main.js',
   output: {
-    filename: 'static/js/main.js',
+    // 所有文件的输出路径
+    filename: 'static/js/[name].js', // 入口文件打包输出名
+    chunkFilename: "static/js/[name].chunk.js", // 动态导入输出资源命名方式
+    assetModuleFilename: "static/media/[name].[hash][ext]", // 图片、字体等资源命名方式（注意用hash）
     path: resolve(__dirname, '../dist'),
     clean: true
   },
@@ -91,7 +94,9 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(
       {
-        filename: "static/css/main.css"
+        // 定义输出文件名和目录
+        filename: "static/css/[name].css", // 提高代码兼容性
+        chunkFilename: "static/css/[name].chunk.css",
       }
     ),
   ],
