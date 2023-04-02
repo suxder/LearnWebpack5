@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
 const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin")
+const WorkboxPlugin = require("workbox-webpack-plugin")
 
 // 获取处理样式的Loaders
 // 减少重复代码
@@ -34,8 +35,9 @@ module.exports = {
   entry: './src/main.js',
   output: {
     // 所有文件的输出路径
-    filename: 'static/js/[name].js', // 入口文件打包输出名
-    chunkFilename: "static/js/[name].chunk.js", // 动态导入输出资源命名方式
+    // [contenthash:8]使用contenthash，取8位长度
+    filename: "static/js/[name].[contenthash:8].js", // 入口文件打包输出资源命名方式
+    chunkFilename: "static/js/[name].[contenthash:8].chunk.js", // 动态导入输出资源命名方式
     assetModuleFilename: "static/media/[name].[hash][ext]", // 图片、字体等资源命名方式（注意用hash）
     path: resolve(__dirname, '../dist'),
     clean: true
@@ -96,14 +98,20 @@ module.exports = {
     new MiniCssExtractPlugin(
       {
         // 定义输出文件名和目录
-        filename: "static/css/[name].css", // 提高代码兼容性
-        chunkFilename: "static/css/[name].chunk.css",
+        filename: "static/css/[name].[contenthash:8].css",
+        chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
       }
     ),
     new PreloadWebpackPlugin({
       rel: "preload", // preload兼容性更好
       as: "script",
       // rel: 'prefetch' // prefetch兼容性更差
+    }),
+    new WorkboxPlugin.GenerateSW({
+      // 这些选项帮助快速启用 ServiceWorkers
+      // 不允许遗留任何“旧的” ServiceWorkers
+      clientsClaim: true,
+      skipWaiting: true,
     }),
   ],
   optimization: {

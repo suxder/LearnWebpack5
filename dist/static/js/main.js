@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkwebpack_code=self.webpackChunkwebpack_code||[]).push([[179],{38:function(e,c,n){document.getElementById("btn").onclick=function(){console.log("click"),n.e(600).then(n.bind(n,157)).then((e=>{let{mul:c}=e;console.log(c(2,3))}))}}},function(e){var c;c=38,e(e.s=c)}]);
-//# sourceMappingURL=main.js.map
