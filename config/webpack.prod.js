@@ -1,10 +1,11 @@
 const os = require("os")
 const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ESLintWebpackPlugin = require("eslint-webpack-plugin")
+const ESLintWebpackPlugin = require("eslint-webpack-plugin")  
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin")
 
 // 获取处理样式的Loaders
 // 减少重复代码
@@ -99,6 +100,11 @@ module.exports = {
         chunkFilename: "static/css/[name].chunk.css",
       }
     ),
+    new PreloadWebpackPlugin({
+      rel: "preload", // preload兼容性更好
+      as: "script",
+      // rel: 'prefetch' // prefetch兼容性更差
+    }),
   ],
   optimization: {
     minimize: true,
@@ -114,6 +120,10 @@ module.exports = {
     splitChunks: {
       chunks: "all", // 对所有模块都进行分割
       // 其他内容用默认配置即可
+    },
+    // 提取runtime文件
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
     },
   },
   mode: 'production',
